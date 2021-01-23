@@ -3,6 +3,9 @@ package main
 import (
 	"flag"
 	"github.com/go-kit/kit/log"
+	"github.com/gofiber/fiber/v2"
+	flogger "github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/oklog/ulid/v2"
 	"github.com/spachava753/go-fiber-todo/todo"
 	"github.com/spachava753/go-fiber-todo/user"
@@ -28,4 +31,9 @@ func main() {
 	var todoService todo.Service
 	todoService = todo.NewMemTodoService(todoEntropy, t)
 	todoService = todo.NewBasicLoggingService(log.With(logger, "component", "todo"), todoService)
+
+	app := fiber.New()
+
+	app.Use(recover.New())
+	app.Use(flogger.New())
 }
