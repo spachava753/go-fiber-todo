@@ -36,4 +36,5 @@ func main() {
 
 	app.Use(recover.New())
 	app.Use(flogger.New())
+	user.MakeRoutes(userService, logger, app)
 }
