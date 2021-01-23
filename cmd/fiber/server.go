@@ -4,7 +4,6 @@ import (
 	"flag"
 	"github.com/go-kit/kit/log"
 	"github.com/gofiber/fiber/v2"
-	flogger "github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/oklog/ulid/v2"
 	"github.com/spachava753/go-fiber-todo/todo"
@@ -35,6 +34,8 @@ func main() {
 	app := fiber.New()
 
 	app.Use(recover.New())
-	app.Use(flogger.New())
 	user.MakeRoutes(userService, logger, app)
+	todo.MakeRoutes(todoService, logger, app)
+
+	app.Listen(":8080")
 }
